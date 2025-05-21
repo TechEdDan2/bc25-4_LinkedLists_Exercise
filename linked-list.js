@@ -97,30 +97,90 @@ class LinkedList {
   /** getAt(idx): get val at idx. */
 
   getAt(idx) {
+    if (idx < 0 || idx >= this.length) {
+      throw new Error("Index out of bounds");
+    }
+    let curNode = this.head;
+    for (let i = 0; i < idx; i++) {
+      curNode = curNode.next;
+    }
+    return curNode.val;
 
   }
 
   /** setAt(idx, val): set val at idx to val */
 
   setAt(idx, val) {
+    if (idx < 0 || idx >= this.length) {
+      throw new Error("Index out of bounds");
+    }
+    let curNode = this.head;
+    for (let i = 0; i < idx; i++) {
+      curNode = curNode.next;
+    }
+    curNode.val = val;
 
   }
 
   /** insertAt(idx, val): add node w/val before idx. */
 
   insertAt(idx, val) {
+    if (idx < 0 || idx > this.length) {
+      throw new Error("Index param out of bounds");
+    }
+    if (idx === 0) {
+      this.unshift(val);
+    } else if (idx === this.length) {
+      this.push(val);
+    } else {
+      const newNode = new Node(val);
+      let curNode = this.head;
+      for (let i = 0; i < idx - 1; i++) {
+        curNode = curNode.next;
+      }
+      newNode.next = curNode.next;
+      curNode.next = newNode;
+      this.length++;
+    }
 
   }
 
   /** removeAt(idx): return & remove item at idx, */
 
   removeAt(idx) {
+    if (idx < 0 || idx >= this.length) {
+      throw new Error("Index param out of bounds");
+    }
+    if (idx === 0) {
+      return this.shift();
+    } else if (idx === this.length - 1) {
+      return this.pop();
+    } else {
+      let curNode = this.head;
+      for (let i = 0; i < idx - 1; i++) {
+        curNode = curNode.next;
+      }
+      const removedNode = curNode.next.val;
+      curNode.next = curNode.next.next;
+      this.length--;
+      return removedNode;
+    }
 
   }
 
   /** average(): return an average of all values in the list */
 
   average() {
+    if (this.length === 0) {
+      throw new Error("Linked List empty");
+    }
+    let sum = 0;
+    let curNode = this.head;
+    while (curNode) {
+      sum += curNode.val;
+      curNode = curNode.next;
+    }
+    return sum / this.length;
 
   }
 }
